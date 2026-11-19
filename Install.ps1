@@ -4,6 +4,13 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     return
 }
 
+# ตรวจสอบว่ามี WMIC ติดตั้งอยู่ในระบบแล้วหรือไม่
+if (Get-Command wmic -ErrorAction SilentlyContinue) {
+    Write-Host "[INFO] WMIC is already installed on this system." -ForegroundColor Green
+    wmic os get caption
+    return
+}
+
 # กำหนดลิงก์ตรงจาก Microsoft และโฟลเดอร์ชั่วคราว
 $msUrl = "https://download.microsoft.com/download/1f01d660-d821-49b3-b247-7bc2fe9f4561/wmic_dlc.zip"
 $workDir = "$env:TEMP\WMIC_DLC_Setup"
